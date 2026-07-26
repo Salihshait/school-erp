@@ -42,7 +42,8 @@ server/export-*.csv
 node_modules/.vite/
 
 # Package manager locks generated locally
-**/package-lock.json
+# package-lock.json files under project apps should be committed, so do not ignore nested lock files.
+# (server/node_modules is ignored separately via node_modules/ rules.)
 
 # Ignore local test artifacts
 *.local
