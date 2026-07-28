@@ -1,81 +1,76 @@
-import React, { useEffect, useState } from 'react'
+import React, { useMemo } from 'react'
 import { TopBar } from './components/TopBar'
 import StatCard from './components/StatCard'
-import ClassSummary from './components/ClassSummary'
 import RecentActivity from './components/RecentActivity'
+import TodayAttendanceWidget from './components/TodayAttendanceWidget'
+import BirthdaysWidget from './components/BirthdaysWidget'
+import RecentAdmissionsWidget from './components/RecentAdmissionsWidget'
+import RecentNoticesWidget from './components/RecentNoticesWidget'
+import FinanceWidget from './components/FinanceWidget'
+import CalendarWidget from './components/CalendarWidget'
+import DashboardCharts from './components/DashboardCharts'
+import NotificationsWidget from './components/NotificationsWidget'
+import QuickActionsWidget from './components/QuickActionsWidget'
+import { useStudentCount, useTeacherCount, useClassCount, useRecentAdmissions, useRecentNotices } from '../../hooks/useDashboard'
+import './AdminDashboard.css'
 
 export default function DashboardPage() {
-  const [stats, setStats] = useState(null)
-  const [classes, setClasses] = useState([])
-  const [activities, setActivities] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
+  const studentCount = useStudentCount()
+  const teacherCount = useTeacherCount()
+  const classCount = useClassCount()
+  const admissions = useRecentAdmissions(5)
+  const notices = useRecentNotices(5)
 
-  useEffect(() => {
-    let mounted = true
-    async function load() {
-      setLoading(true)
-      try {
-        // Fetch consolidated dashboard data from backend endpoints if available
-        const [sRes, cRes, aRes] = await Promise.all([
-          fetch('/api/dashboard/stats').then(r => r.ok ? r.json() : null).catch(() => null),
-          fetch('/api/classes').then(r => r.ok ? r.json() : []).catch(() => []),
-          fetch('/api/activities').then(r => r.ok ? r.json() : []).catch(() => []),
-        ])
-
-        if (!mounted) return
-        setStats(sRes || { students: 124, assignmentsDue: 6, averageGrade: 87 })
-        setClasses(cRes || [{ id: 'c1', name: 'Math 5A', teacher: 'Ms. Smith', students: 28 }])
-        setActivities(aRes || [{ id: 'a1', text: 'Math Quiz 1 graded', at: new Date().toISOString() }])
-      } catch (err) {
-        if (!mounted) return
-        setError(err.message || String(err))
-      } finally {
-        if (mounted) setLoading(false)
-      }
-    }
-    load()
-    return () => { mounted = false }
-  }, [])
+  const activities = useMemo(() => {
+    const admissionItems = (admissions.data || []).map(a => ({
+      id: `admission-${a.id}`,
+      text: `New admission: ${a.student_name}`,
+      at: a.admission_date,
+    }))
+    const noticeItems = (notices.data || []).map(n => ({
+      id: `notice-${n.id}`,
+      text: `Notice posted: ${n.title}`,
+      at: n.posted_at,
+    }))
+    return [...admissionItems, ...noticeItems]
+      .sort((a, b) => new Date(b.at) - new Date(a.at))
+      .slice(0, 8)
+  }, [admissions.data, notices.data])
 
   return (
     <div style={{ padding: 20 }}>
-      <TopBar title="Dashboard" />
+      <TopBar title="Admin Dashboard" />
 
-      {error && <div style={{ color: 'crimson', marginBottom: 12 }}>{error}</div>}
-
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12, marginBottom: 16 }}>
-        <StatCard title="Students" value={loading ? '—' : stats?.students} />
-        <StatCard title="Assignments Due" value={loading ? '—' : stats?.assignmentsDue} />
-        <StatCard title="Class Average" value={loading ? '—' : `${stats?.averageGrade ?? '—'}%`} />
+      <div className="dashboard-stats-row">
+        <StatCard title="Total Students" value={studentCount.isLoading ? '—' : studentCount.data ?? 0} />
+        <StatCard title="Teachers" value={teacherCount.isLoading ? '—' : teacherCount.data ?? 0} />
+        <StatCard title="Classes" value={classCount.isLoading ? '—' : classCount.data ?? 0} />
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: 12 }}>
-        <div>
-          <section style={{ marginBottom: 12 }}>
-            <h3 style={{ margin: '8px 0' }}>Classes</h3>
-            <ClassSummary classes={classes} loading={loading} />
-          </section>
+      <div style={{ marginBottom: 16 }}>
+        <TodayAttendanceWidget />
+      </div>
 
-          <section>
-            <h3 style={{ margin: '8px 0' }}>Recent Activity</h3>
-            <RecentActivity activities={activities} loading={loading} />
-          </section>
+      <div style={{ marginBottom: 16 }}>
+        <DashboardCharts />
+      </div>
+
+      <div className="dashboard-columns">
+        <div>
+          <RecentAdmissionsWidget />
+          <RecentNoticesWidget />
+          <div style={{ border: '1px solid var(--border)', borderRadius: 10, padding: 14, marginBottom: 12 }}>
+            <h4 style={{ margin: '0 0 10px' }}>Recent Activities</h4>
+            <RecentActivity activities={activities} loading={admissions.isLoading || notices.isLoading} />
+          </div>
+          <CalendarWidget />
         </div>
 
         <aside>
-          <section style={{ marginBottom: 12 }}>
-            <h4 style={{ margin: '8px 0' }}>Quick Actions</h4>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-              <a className="btn" href="/export" style={{ padding: '8px 12px', background: '#2563eb', color: '#fff', borderRadius: 6, textDecoration: 'none', display: 'inline-block' }}>Run Export</a>
-              <a className="btn" href="/settings" style={{ padding: '8px 12px', background: '#6b7280', color: '#fff', borderRadius: 6, textDecoration: 'none', display: 'inline-block' }}>Settings</a>
-            </div>
-          </section>
-
-          <section>
-            <h4 style={{ margin: '8px 0' }}>Notifications</h4>
-            <div style={{ padding: 12, border: '1px solid #eee', borderRadius: 6, minHeight: 80 }}>No new notifications</div>
-          </section>
+          <FinanceWidget />
+          <BirthdaysWidget />
+          <NotificationsWidget />
+          <QuickActionsWidget />
         </aside>
       </div>
     </div>
