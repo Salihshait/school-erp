@@ -1,6 +1,8 @@
 // Vercel Serverless Function: /api/export
 // Converts the previous Express /api/export into a serverless handler.
 
+import crypto from 'crypto'
+
 const SAMPLE_ROWS = [
   { studentName: 'Alice', studentId: 'S001', assignment: 'Math Quiz 1', grade: 92, standards: 'MA.5.NF', comments: 'Good work' },
   { studentName: 'Bob', studentId: 'S002', assignment: 'Math Quiz 1', grade: 78, standards: 'MA.5.NF', comments: 'Needs practice' },
@@ -26,6 +28,16 @@ function buildCsv(columns) {
   }).join(','))
 
   return [header, ...rows].join('\n')
+}
+
+function base64UrlToBase64(input) {
+  return input.replace(/-/g, '+').replace(/_/g, '/').padEnd(Math.ceil(input.length / 4) * 4, '=')
+}
+
+function verifyHmacSha256(message, secret, signatureB64Url) {
+  const sig = crypto.createHmac('sha256', secret).update(message).digest('base64')
+  const sigUrl = sig.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '')
+  return sigUrl === signatureB64Url
 }
 
 export default async function handler(req, res) {
@@ -56,18 +68,6 @@ export default async function handler(req, res) {
   const { format = 'pdf', columns = [], permissions } = body || {}
 
   // JWT-based auth: verify Bearer token (HMAC-SHA256) using VERCEL_JWT_SECRET
-  import crypto from 'crypto'
-
-  function base64UrlToBase64(input) {
-    return input.replace(/-/g, '+').replace(/_/g, '/').padEnd(Math.ceil(input.length / 4) * 4, '=')
-  }
-
-  function verifyHmacSha256(message, secret, signatureB64Url) {
-    const sig = crypto.createHmac('sha256', secret).update(message).digest('base64')
-    const sigUrl = sig.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '')
-    return sigUrl === signatureB64Url
-  }
-
   const secret = process.env.VERCEL_JWT_SECRET
   if (!secret) {
     res.statusCode = 500
