@@ -1,46 +1,44 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
-import { supabase } from '../../lib/supabaseClient'
+import * as authService from '../../services/authService'
 
 const AuthContext = createContext(null)
 
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState(null)
+  const [session, setSession] = useState(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    // Check active session on mount
     let mounted = true
-    async function getUser() {
-      const { data } = await supabase.auth.getSession()
-      if (!mounted) return
-      setUser(data.session ? data.session.user : null)
-      setLoading(false)
-    }
-    getUser()
 
-    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session ? session.user : null)
+    authService.getSession().then(s => {
+      if (!mounted) return
+      setSession(s)
+      setLoading(false)
+    })
+
+    const subscription = authService.onAuthStateChange((_event, s) => {
+      setSession(s)
     })
 
     return () => {
       mounted = false
-      listener.subscription.unsubscribe()
+      subscription.unsubscribe()
     }
   }, [])
 
-  async function signIn({ email, password }) {
-    return supabase.auth.signInWithPassword({ email, password })
+  const value = {
+    user: session?.user || null,
+    session,
+    loading,
+    signIn: authService.signIn,
+    signUp: authService.signUp,
+    signOut: authService.signOut,
+    signInWithMagicLink: authService.signInWithMagicLink,
+    requestPasswordReset: authService.requestPasswordReset,
+    updatePassword: authService.updatePassword,
+    resendVerificationEmail: authService.resendVerificationEmail,
+    setRememberMe: authService.setRememberMe,
   }
-
-  async function signUp({ email, password }) {
-    return supabase.auth.signUp({ email, password })
-  }
-
-  async function signOut() {
-    await supabase.auth.signOut()
-  }
-
-  const value = { user, loading, signIn, signUp, signOut }
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }

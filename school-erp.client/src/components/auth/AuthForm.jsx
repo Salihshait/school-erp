@@ -1,49 +1,58 @@
-import React, { useState, useEffect } from 'react'
-import { supabase } from '../../lib/supabaseClient'
+import React, { useEffect, useState } from 'react'
+import { useNavigate, Link } from 'react-router-dom'
 import { useAuth } from './AuthProvider'
+import { resolveRole, ROLE_HOME_ROUTES } from '../../services/authService'
 
 export default function AuthForm() {
-  const { user, signIn, signUp, signOut, loading } = useAuth()
+  const { user, signIn, signUp, signInWithMagicLink, loading, setRememberMe } = useAuth()
+  const navigate = useNavigate()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [remember, setRemember] = useState(true)
   const [mode, setMode] = useState('login') // 'login' | 'signup' | 'magic'
   const [message, setMessage] = useState(null)
+  const [submitting, setSubmitting] = useState(false)
 
   useEffect(() => {
     setMessage(null)
   }, [mode])
 
+  useEffect(() => {
+    if (!loading && user) {
+      resolveRole(user.email).then(role => navigate(ROLE_HOME_ROUTES[role], { replace: true }))
+    }
+  }, [loading, user, navigate])
+
   async function handleSubmit(e) {
     e.preventDefault()
     setMessage(null)
+    setSubmitting(true)
     try {
       if (mode === 'login') {
-        const { error } = await signIn({ email, password })
-        if (error) setMessage(error.message)
+        setRememberMe(remember)
+        await signIn({ email, password })
+        const role = await resolveRole(email)
+        navigate(ROLE_HOME_ROUTES[role], { replace: true })
       } else if (mode === 'signup') {
-        const { error } = await signUp({ email, password })
-        if (error) setMessage(error.message)
-        else setMessage('Signup successful — check email to confirm (if enabled)')
+        const result = await signUp({ email, password })
+        if (!result.session) {
+          navigate('/verify-email', { state: { email } })
+        } else {
+          const role = await resolveRole(email)
+          navigate(ROLE_HOME_ROUTES[role], { replace: true })
+        }
       } else if (mode === 'magic') {
-        const { error } = await supabase.auth.signInWithOtp({ email })
-        if (error) setMessage(error.message)
-        else setMessage('Magic link sent to your email')
+        await signInWithMagicLink(email)
+        setMessage('Magic link sent — check your email.')
       }
     } catch (err) {
-      setMessage(err.message)
+      setMessage(err.message || String(err))
+    } finally {
+      setSubmitting(false)
     }
   }
 
-  if (loading) return <div>Loading auth...</div>
-
-  if (user) {
-    return (
-      <div style={{ padding: 16 }}>
-        <p>Signed in as <strong>{user.email}</strong></p>
-        <button onClick={() => signOut()}>Sign out</button>
-      </div>
-    )
-  }
+  if (loading || user) return <div style={{ padding: 16 }}>Loading...</div>
 
   return (
     <div style={{ maxWidth: 420, padding: 16 }}>
@@ -57,14 +66,30 @@ export default function AuthForm() {
         {mode !== 'magic' && (
           <div style={{ marginBottom: 8 }}>
             <label style={{ display: 'block' }}>Password</label>
-            <input type="password" value={password} onChange={e => setPassword(e.target.value)} required={mode !== 'magic'} style={{ width: '100%' }} />
+            <input type="password" value={password} onChange={e => setPassword(e.target.value)} required style={{ width: '100%' }} />
           </div>
         )}
 
-        <div style={{ display: 'flex', gap: 8 }}>
-          <button type="submit">{mode === 'login' ? 'Sign in' : mode === 'signup' ? 'Create account' : 'Send magic link'}</button>
-          <button type="button" onClick={() => setMode(mode === 'login' ? 'signup' : 'login')}>{mode === 'login' ? 'Create account' : 'Have an account?'}</button>
-          <button type="button" onClick={() => setMode('magic')}>Use magic link</button>
+        {mode === 'login' && (
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+            <label style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13.5 }}>
+              <input type="checkbox" checked={remember} onChange={e => setRemember(e.target.checked)} />
+              Remember me
+            </label>
+            <Link to="/forgot-password" style={{ fontSize: 13.5 }}>Forgot password?</Link>
+          </div>
+        )}
+
+        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+          <button type="submit" disabled={submitting}>
+            {mode === 'login' ? 'Sign in' : mode === 'signup' ? 'Create account' : 'Send magic link'}
+          </button>
+          <button type="button" onClick={() => setMode(mode === 'login' ? 'signup' : 'login')}>
+            {mode === 'login' ? 'Create account' : 'Have an account?'}
+          </button>
+          <button type="button" onClick={() => setMode(mode === 'magic' ? 'login' : 'magic')}>
+            {mode === 'magic' ? 'Use password instead' : 'Use magic link'}
+          </button>
         </div>
       </form>
 

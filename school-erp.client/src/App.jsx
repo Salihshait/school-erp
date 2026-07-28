@@ -1,8 +1,12 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { BrowserRouter, Routes, Route, useParams } from 'react-router-dom'
 import { AuthProvider } from './components/auth/AuthProvider'
+import ProtectedRoute from './components/auth/ProtectedRoute'
 import AppLayout from './components/layout/AppLayout'
 import AuthForm from './components/auth/AuthForm'
+import ForgotPasswordPage from './components/auth/ForgotPasswordPage'
+import ResetPasswordPage from './components/auth/ResetPasswordPage'
+import VerifyEmailNotice from './components/auth/VerifyEmailNotice'
 import DashboardPage from './components/dashboard/DashboardPage'
 import StudentList from './components/student/StudentList'
 import StudentForm from './components/student/StudentForm'
@@ -79,7 +83,10 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/auth" element={<AuthForm />} />
-            <Route element={<AppLayout />}>
+            <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+            <Route path="/reset-password" element={<ResetPasswordPage />} />
+            <Route path="/verify-email" element={<VerifyEmailNotice />} />
+            <Route element={<ProtectedRoute><AppLayout /></ProtectedRoute>}>
               <Route path="/" element={<DashboardPage />} />
               <Route path="/student" element={<StudentList />} />
               <Route path="/student/new" element={<StudentFormRoute />} />
