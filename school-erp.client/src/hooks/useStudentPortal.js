@@ -29,6 +29,20 @@ export function useSubmitAssignment() {
   return useMutation(studentPortalService.submitAssignment, { onSuccess: () => qc.invalidateQueries(['student-portal', 'submissions']) })
 }
 
+export function useCreateAssignment() {
+  const qc = useQueryClient()
+  return useMutation(studentPortalService.createAssignment, { onSuccess: () => qc.invalidateQueries(['student-portal', 'assignments']) })
+}
+
+export function useAssignmentSubmissions(assignment_id) {
+  return useQuery(['student-portal', 'assignment-submissions', assignment_id], () => studentPortalService.getAssignmentSubmissions(assignment_id), { enabled: !!assignment_id })
+}
+
+export function useGradeSubmission() {
+  const qc = useQueryClient()
+  return useMutation(studentPortalService.gradeSubmission, { onSuccess: () => qc.invalidateQueries(['student-portal', 'assignment-submissions']) })
+}
+
 // Download Notes
 export function useStudyNotes(params) {
   return useQuery(['student-portal', 'notes', params], () => studentPortalService.getStudyNotes(params))

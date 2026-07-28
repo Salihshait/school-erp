@@ -37,6 +37,17 @@ import StudentTimetablePage from './components/student-portal/StudentTimetablePa
 import StudentNotesPage from './components/student-portal/StudentNotesPage'
 import StudentProfilePage from './components/student-portal/StudentProfilePage'
 import StudentCertificatesPage from './components/student-portal/StudentCertificatesPage'
+import TeacherPortalLayout from './components/teacher-portal/TeacherPortalLayout'
+import TeacherAttendancePage from './components/teacher-portal/TeacherAttendancePage'
+import TeacherStudentAttendancePage from './components/teacher-portal/TeacherStudentAttendancePage'
+import TeacherHomeworkPage from './components/teacher-portal/TeacherHomeworkPage'
+import TeacherAssignmentsPage from './components/teacher-portal/TeacherAssignmentsPage'
+import TeacherExamMarksPage from './components/teacher-portal/TeacherExamMarksPage'
+import TeacherTimetablePage from './components/teacher-portal/TeacherTimetablePage'
+import TeacherSalaryPage from './components/teacher-portal/TeacherSalaryPage'
+import TeacherLeavePage from './components/teacher-portal/TeacherLeavePage'
+import TeacherProfilePage from './components/teacher-portal/TeacherProfilePage'
+import TeacherNoticePage from './components/teacher-portal/TeacherNoticePage'
 
 const queryClient = new QueryClient()
 
@@ -106,6 +117,18 @@ function App() {
               <Route path="notes" element={<StudentNotesPage />} />
               <Route path="certificates" element={<StudentCertificatesPage />} />
               <Route path="profile" element={<StudentProfilePage />} />
+            </Route>
+            <Route path="/teacher-portal" element={<TeacherPortalLayout />}>
+              <Route index element={<TeacherAttendancePage />} />
+              <Route path="student-attendance" element={<TeacherStudentAttendancePage />} />
+              <Route path="homework" element={<TeacherHomeworkPage />} />
+              <Route path="assignments" element={<TeacherAssignmentsPage />} />
+              <Route path="marks" element={<TeacherExamMarksPage />} />
+              <Route path="timetable" element={<TeacherTimetablePage />} />
+              <Route path="salary" element={<TeacherSalaryPage />} />
+              <Route path="leave" element={<TeacherLeavePage />} />
+              <Route path="notice" element={<TeacherNoticePage />} />
+              <Route path="profile" element={<TeacherProfilePage />} />
             </Route>
           </Routes>
         </BrowserRouter>

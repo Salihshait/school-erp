@@ -62,4 +62,32 @@ describe('studentPortalService', () => {
     tableResults.certificates = { data: null, error: new Error('query failed') }
     await expect(studentPortalService.getCertificates('s1')).rejects.toThrow('query failed')
   })
+
+  it('createAssignment inserts and returns the created row', async () => {
+    tableResults.assignments = { data: { id: 'a2', title: 'Project' }, error: null }
+    const result = await studentPortalService.createAssignment({ class_id: 'c1', subject: 'Science', title: 'Project', created_by: 't1' })
+    expect(result).toEqual({ id: 'a2', title: 'Project' })
+    expect(fromMock).toHaveBeenCalledWith('assignments')
+  })
+
+  it('gradeSubmission marks the submission graded with the given marks', async () => {
+    let capturedPayload
+    fromMock.mockImplementation((table) => {
+      const builder = createBuilder(tableResults[table] ?? { data: null, error: null })
+      if (table === 'assignment_submissions') {
+        builder.update = vi.fn((payload) => {
+          capturedPayload = payload
+          builder._resolved = { data: { id: 'sub1', ...payload }, error: null }
+          return builder
+        })
+        builder.single = vi.fn(() => Promise.resolve(builder._resolved))
+      }
+      return builder
+    })
+
+    const result = await studentPortalService.gradeSubmission({ id: 'sub1', marks_obtained: 42 })
+
+    expect(capturedPayload).toEqual({ marks_obtained: 42, status: 'graded' })
+    expect(result).toEqual(expect.objectContaining({ id: 'sub1', marks_obtained: 42, status: 'graded' }))
+  })
 })

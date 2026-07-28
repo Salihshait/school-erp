@@ -66,4 +66,17 @@ describe('parentPortalService', () => {
     const result = await parentPortalService.markNotificationRead('n1')
     expect(result).toEqual({ id: 'n1', is_read: true })
   })
+
+  it('createHomework inserts and returns the created row', async () => {
+    tableResults.homework = { data: { id: 'h2', title: 'Reading' }, error: null }
+    const result = await parentPortalService.createHomework({ class_id: 'c1', subject: 'English', title: 'Reading' })
+    expect(result).toEqual({ id: 'h2', title: 'Reading' })
+    expect(fromMock).toHaveBeenCalledWith('homework')
+  })
+
+  it('createNotice throws when supabase returns an error', async () => {
+    tableResults.notices = { data: null, error: new Error('insert failed') }
+    await expect(parentPortalService.createNotice({ title: 'Holiday', body: 'School closed', posted_by: 't1' }))
+      .rejects.toThrow('insert failed')
+  })
 })

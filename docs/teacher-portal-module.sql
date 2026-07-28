@@ -1,0 +1,17 @@
+-- Teacher Portal module
+-- No new tables: every feature reuses tables already defined by other
+-- modules. This file documents the mapping for reference.
+--
+-- Attendance (own)         -> attendance_records / attendance_sessions, person_type='teacher'
+-- Student Attendance       -> attendance_sessions / attendance_records, person_type='student'
+--                             (session created by the teacher, students scoped by class_id + section)
+-- Homework                 -> homework (docs/parent-portal-module.sql), created_by = teacher
+-- Assignment Upload        -> assignments / assignment_submissions (docs/student-portal-module.sql),
+--                             created_by = teacher; grading writes marks_obtained/status back onto
+--                             assignment_submissions
+-- Exam Marks               -> marks / exams (docs/exam-module.sql)
+-- Timetable (own)          -> teacher_timetable (docs/teacher-module.sql), filtered by teacher_id
+-- Salary                   -> payslips / salary_structures (docs/payroll-module.sql), filtered by teacher_id
+-- Leave                    -> attendance_leaves (docs/attendance-module.sql), person_type='teacher'
+-- Profile                  -> teachers (docs/teacher-module.sql)
+-- Notice                   -> notices (docs/parent-portal-module.sql), posted_by = teacher

@@ -17,9 +17,21 @@ export const getHomework = async ({ class_id, section } = {}) => {
   return data
 }
 
+export const createHomework = async (payload) => {
+  const { data, error } = await supabase.from('homework').insert([payload]).select().single()
+  if (error) throw error
+  return data
+}
+
 // Notice Board
 export const getNotices = async () => {
   const { data, error } = await supabase.from('notices').select('*').order('posted_at', { ascending: false })
+  if (error) throw error
+  return data
+}
+
+export const createNotice = async (payload) => {
+  const { data, error } = await supabase.from('notices').insert([payload]).select().single()
   if (error) throw error
   return data
 }

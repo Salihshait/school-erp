@@ -57,4 +57,11 @@ export const getClassTimetable = async (class_id) => {
   return data
 }
 
+export const getTeacherTimetable = async (teacher_id) => {
+  const { data, error } = await supabase.from(TIMETABLE_TBL).select('*')
+    .eq('teacher_id', teacher_id).order('day_of_week', { ascending: true }).order('start_time', { ascending: true })
+  if (error) throw error
+  return data
+}
+
 export default teacherService

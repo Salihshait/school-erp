@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import teacherService, { getClassTimetable } from '../services/teacherService'
+import teacherService, { getClassTimetable, getTeacherTimetable } from '../services/teacherService'
 
 export function useTeachers(params) {
   return useQuery(['teachers', params], () => teacherService.list(params), { keepPreviousData: true })
@@ -26,6 +26,10 @@ export function useDeleteTeacher() {
 
 export function useClassTimetable(class_id) {
   return useQuery(['timetable', 'class', class_id], () => getClassTimetable(class_id), { enabled: !!class_id })
+}
+
+export function useTeacherTimetable(teacher_id) {
+  return useQuery(['timetable', 'teacher', teacher_id], () => getTeacherTimetable(teacher_id), { enabled: !!teacher_id })
 }
 
 export function useUploadTeacherDocument() {

@@ -30,6 +30,25 @@ export const submitAssignment = async (payload) => {
   return data
 }
 
+export const createAssignment = async (payload) => {
+  const { data, error } = await supabase.from('assignments').insert([payload]).select().single()
+  if (error) throw error
+  return data
+}
+
+export const getAssignmentSubmissions = async (assignment_id) => {
+  const { data, error } = await supabase.from('assignment_submissions').select('*').eq('assignment_id', assignment_id)
+  if (error) throw error
+  return data
+}
+
+export const gradeSubmission = async ({ id, marks_obtained }) => {
+  const { data, error } = await supabase.from('assignment_submissions')
+    .update({ marks_obtained, status: 'graded' }).eq('id', id).select().single()
+  if (error) throw error
+  return data
+}
+
 // Download Notes
 export const getStudyNotes = async ({ class_id, section } = {}) => {
   let q = supabase.from('study_notes').select('*').order('uploaded_at', { ascending: false })

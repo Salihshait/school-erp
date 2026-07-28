@@ -21,9 +21,19 @@ export function useHomework(params) {
   return useQuery(['parent-portal', 'homework', params], () => parentPortalService.getHomework(params))
 }
 
+export function useCreateHomework() {
+  const qc = useQueryClient()
+  return useMutation(parentPortalService.createHomework, { onSuccess: () => qc.invalidateQueries(['parent-portal', 'homework']) })
+}
+
 // Notice Board
 export function useNotices() {
   return useQuery(['parent-portal', 'notices'], parentPortalService.getNotices)
+}
+
+export function useCreateNotice() {
+  const qc = useQueryClient()
+  return useMutation(parentPortalService.createNotice, { onSuccess: () => qc.invalidateQueries(['parent-portal', 'notices']) })
 }
 
 // School Events
