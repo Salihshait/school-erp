@@ -36,3 +36,7 @@ export function useLeaveRequests(params) {
 export function usePersonAttendance(params) {
   return useQuery(['attendance', 'person', params], () => attendanceService.getPersonRecords(params), { enabled: !!params?.person_id })
 }
+
+export function useAttendanceOverview(params) {
+  return useQuery(['attendance', 'overview', params], () => attendanceService.getAttendanceOverview(params))
+}

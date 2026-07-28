@@ -13,6 +13,7 @@ import TeacherProfile from './components/teacher/TeacherProfile'
 import AttendancePage from './components/attendance/AttendancePage'
 import HostelPage from './components/hostel/HostelPage'
 import PayrollPage from './components/payroll/PayrollPage'
+import ReportsPage from './components/reports/ReportsPage'
 import ExportPage from './components/export/ExportPage'
 import ParentPortalLayout from './components/parent-portal/ParentPortalLayout'
 import ParentAttendancePage from './components/parent-portal/ParentAttendancePage'
@@ -91,6 +92,7 @@ function App() {
               <Route path="/attendance" element={<AttendancePage />} />
               <Route path="/hostel" element={<HostelPage />} />
               <Route path="/payroll" element={<PayrollPage />} />
+              <Route path="/reports" element={<ReportsPage />} />
               <Route path="/export" element={<ExportPage />} />
             </Route>
             <Route path="/parent" element={<ParentPortalLayout />}>

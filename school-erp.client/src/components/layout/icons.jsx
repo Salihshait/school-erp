@@ -84,6 +84,16 @@ export function PayrollIcon(props) {
   )
 }
 
+export function ReportsIcon(props) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M4 20V4" />
+      <path d="M4 20h16" />
+      <path d="M8 16v-4M13 16V8M18 16v-6" />
+    </svg>
+  )
+}
+
 export function LogoutIcon(props) {
   return (
     <svg {...base} {...props}>

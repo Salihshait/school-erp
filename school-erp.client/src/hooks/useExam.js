@@ -41,3 +41,7 @@ export function useProgressCard(student_id, exam_id) {
 export function useStudentMarks(student_id) {
   return useQuery(['exams', 'marks', student_id], () => examService.getStudentMarks(student_id), { enabled: !!student_id })
 }
+
+export function useClassResultSummary() {
+  return useQuery(['exams', 'class-result-summary'], examService.getClassResultSummary)
+}

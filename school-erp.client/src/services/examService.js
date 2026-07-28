@@ -73,3 +73,9 @@ export const getStudentMarks = async (student_id) => {
   if (error) throw error
   return data
 }
+
+export const getClassResultSummary = async () => {
+  const { data, error } = await supabase.from('class_result_summary').select('*')
+  if (error) throw error
+  return data
+}

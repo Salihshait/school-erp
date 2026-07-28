@@ -67,6 +67,21 @@ export const getHolidays = async () => {
   return data
 }
 
+export const getAttendanceOverview = async ({ person_type = 'student' } = {}) => {
+  const { data, error } = await supabase.from('attendance_monthly_summary').select('*').eq('person_type', person_type)
+  if (error) throw error
+  const byMonth = new Map()
+  for (const row of data || []) {
+    const key = row.month
+    const entry = byMonth.get(key) || { month: key, present_count: 0, absent_count: 0, total_records: 0 }
+    entry.present_count += row.present_count || 0
+    entry.absent_count += row.absent_count || 0
+    entry.total_records += row.total_records || 0
+    byMonth.set(key, entry)
+  }
+  return [...byMonth.values()].sort((a, b) => a.month.localeCompare(b.month))
+}
+
 export const exportAttendanceCsv = async (query) => {
   // lightweight: fetch records and return CSV rows (caller handles saving)
   const { data, error } = await supabase.from('attendance_records').select('*').limit(10000)

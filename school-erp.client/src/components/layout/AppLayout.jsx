@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { NavLink, Outlet, useLocation } from 'react-router-dom'
 import { useAuth } from '../auth/AuthProvider'
-import { DashboardIcon, StudentsIcon, TeachersIcon, AttendanceIcon, HostelIcon, PayrollIcon, ExportIcon, LogoutIcon, MenuIcon } from './icons'
+import { DashboardIcon, StudentsIcon, TeachersIcon, AttendanceIcon, HostelIcon, PayrollIcon, ReportsIcon, ExportIcon, LogoutIcon, MenuIcon } from './icons'
 import './AppLayout.css'
 
 const NAV_ITEMS = [
@@ -11,6 +11,7 @@ const NAV_ITEMS = [
   { to: '/attendance', label: 'Attendance', icon: AttendanceIcon },
   { to: '/hostel', label: 'Hostel', icon: HostelIcon },
   { to: '/payroll', label: 'Payroll', icon: PayrollIcon },
+  { to: '/reports', label: 'Reports', icon: ReportsIcon },
   { to: '/export', label: 'Export', icon: ExportIcon },
 ]
 
