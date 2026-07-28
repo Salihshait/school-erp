@@ -12,6 +12,12 @@ export const createExam = async (payload) => {
   return data
 }
 
+export const getExams = async () => {
+  const { data, error } = await supabase.from('exams').select('*').order('created_at', { ascending: false })
+  if (error) throw error
+  return data
+}
+
 export const addQuestion = async (payload) => {
   const { data, error } = await supabase.from('questions').insert([payload]).select().single()
   if (error) throw error
@@ -58,6 +64,12 @@ export const getExamSchedule = async (exam_id) => {
 
 export const getProgressCard = async ({ student_id, exam_id }) => {
   const { data, error } = await supabase.from('progress_cards').select('*').eq('student_id', student_id).eq('exam_id', exam_id)
+  if (error) throw error
+  return data
+}
+
+export const getStudentMarks = async (student_id) => {
+  const { data, error } = await supabase.from('marks').select('*').eq('student_id', student_id)
   if (error) throw error
   return data
 }

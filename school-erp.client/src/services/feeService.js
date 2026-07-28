@@ -18,8 +18,10 @@ export const createFee = async (payload) => {
   return data
 }
 
-export const getPendingFees = async () => {
-  const { data, error } = await supabase.from('fees').select('*').eq('status','pending')
+export const getPendingFees = async ({ student_id } = {}) => {
+  let q = supabase.from('fees').select('*').eq('status','pending')
+  if (student_id) q = q.eq('student_id', student_id)
+  const { data, error } = await q
   if (error) throw error
   return data
 }
@@ -28,6 +30,13 @@ export const recordPayment = async (payload) => {
   const { data, error } = await supabase.from('payments').insert([payload]).select().single()
   if (error) throw error
   return data
+}
+
+export const payFee = async ({ fee_id, student_id, amount, method = 'upi' }) => {
+  const payment = await recordPayment({ fee_id, student_id, amount, method, status: 'completed' })
+  const { error } = await supabase.from('fees').update({ status: 'paid' }).eq('id', fee_id)
+  if (error) throw error
+  return payment
 }
 
 export const getPayments = async ({ student_id }) => {

@@ -28,3 +28,11 @@ export function useCreateLeave() {
   const qc = useQueryClient()
   return useMutation(attendanceService.createLeaveRequest, { onSuccess: () => qc.invalidateQueries(['attendance','leaves']) })
 }
+
+export function useLeaveRequests(params) {
+  return useQuery(['attendance', 'leaves', params], () => attendanceService.getLeaveRequests(params))
+}
+
+export function usePersonAttendance(params) {
+  return useQuery(['attendance', 'person', params], () => attendanceService.getPersonRecords(params), { enabled: !!params?.person_id })
+}

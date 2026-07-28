@@ -25,6 +25,14 @@ export const getSessionRecords = async (session_id) => {
   return data
 }
 
+export const getPersonRecords = async ({ person_id, person_type }) => {
+  const { data, error } = await supabase.from('attendance_records')
+    .select('*').eq('person_id', person_id).eq('person_type', person_type)
+    .order('recorded_at', { ascending: false })
+  if (error) throw error
+  return data
+}
+
 export const getMonthlyReport = async ({ person_id, person_type, month }) => {
   // month in YYYY-MM format
   const start = `${month}-01`
@@ -40,6 +48,15 @@ export const getMonthlyReport = async ({ person_id, person_type, month }) => {
 
 export const createLeaveRequest = async (payload) => {
   const { data, error } = await supabase.from('attendance_leaves').insert([payload]).select().single()
+  if (error) throw error
+  return data
+}
+
+export const getLeaveRequests = async ({ person_id, person_type } = {}) => {
+  let q = supabase.from('attendance_leaves').select('*').order('requested_at', { ascending: false })
+  if (person_id) q = q.eq('person_id', person_id)
+  if (person_type) q = q.eq('person_type', person_type)
+  const { data, error } = await q
   if (error) throw error
   return data
 }

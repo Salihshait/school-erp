@@ -1,0 +1,105 @@
+.parent-shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 100svh;
+  width: 100%;
+  text-align: left;
+}
+
+.parent-portal-status {
+  padding: 24px;
+  max-width: 480px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.parent-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  background: var(--bg);
+  z-index: 5;
+}
+
+.parent-header-title {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text);
+}
+
+.parent-header-student {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-h);
+}
+
+.parent-signout {
+  padding: 8px 14px;
+  border-radius: 7px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-h);
+  font-size: 13.5px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.parent-signout:hover {
+  background: var(--social-bg);
+}
+
+.parent-tabs {
+  display: flex;
+  gap: 4px;
+  padding: 8px 12px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 61px;
+  background: var(--bg);
+  z-index: 4;
+  scrollbar-width: thin;
+}
+
+.parent-tab {
+  flex-shrink: 0;
+  padding: 8px 14px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.parent-tab:hover {
+  background: var(--social-bg);
+  color: var(--text-h);
+}
+
+.parent-tab.active {
+  background: var(--accent-bg);
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.parent-content {
+  flex: 1;
+  padding: 16px;
+}
+
+@media (min-width: 640px) {
+  .parent-content {
+    padding: 24px;
+    max-width: 720px;
+    margin: 0 auto;
+    width: 100%;
+  }
+}

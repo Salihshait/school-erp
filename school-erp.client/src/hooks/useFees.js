@@ -15,13 +15,18 @@ export function useCreateFee() {
   return useMutation(feeService.createFee, { onSuccess: () => qc.invalidateQueries(['fees','pending']) })
 }
 
-export function usePendingFees() {
-  return useQuery(['fees','pending'], feeService.getPendingFees)
+export function usePendingFees(params) {
+  return useQuery(['fees','pending', params], () => feeService.getPendingFees(params))
 }
 
 export function useRecordPayment() {
   const qc = useQueryClient()
   return useMutation(feeService.recordPayment, { onSuccess: () => { qc.invalidateQueries(['payments']); qc.invalidateQueries(['fees','pending']) } })
+}
+
+export function usePayFee() {
+  const qc = useQueryClient()
+  return useMutation(feeService.payFee, { onSuccess: () => { qc.invalidateQueries(['payments']); qc.invalidateQueries(['fees','pending']) } })
 }
 
 export function usePayments(student_id) {

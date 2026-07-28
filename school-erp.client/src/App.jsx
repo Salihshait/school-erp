@@ -14,6 +14,17 @@ import AttendancePage from './components/attendance/AttendancePage'
 import HostelPage from './components/hostel/HostelPage'
 import PayrollPage from './components/payroll/PayrollPage'
 import ExportPage from './components/export/ExportPage'
+import ParentPortalLayout from './components/parent-portal/ParentPortalLayout'
+import ParentAttendancePage from './components/parent-portal/ParentAttendancePage'
+import ParentMarksPage from './components/parent-portal/ParentMarksPage'
+import ParentHomeworkPage from './components/parent-portal/ParentHomeworkPage'
+import ParentReportCardPage from './components/parent-portal/ParentReportCardPage'
+import ParentFeesPage from './components/parent-portal/ParentFeesPage'
+import ParentNoticesPage from './components/parent-portal/ParentNoticesPage'
+import ParentEventsPage from './components/parent-portal/ParentEventsPage'
+import ParentChatPage from './components/parent-portal/ParentChatPage'
+import ParentLeaveRequestPage from './components/parent-portal/ParentLeaveRequestPage'
+import ParentNotificationsPage from './components/parent-portal/ParentNotificationsPage'
 
 const queryClient = new QueryClient()
 
@@ -58,6 +69,18 @@ function App() {
               <Route path="/hostel" element={<HostelPage />} />
               <Route path="/payroll" element={<PayrollPage />} />
               <Route path="/export" element={<ExportPage />} />
+            </Route>
+            <Route path="/parent" element={<ParentPortalLayout />}>
+              <Route index element={<ParentAttendancePage />} />
+              <Route path="marks" element={<ParentMarksPage />} />
+              <Route path="homework" element={<ParentHomeworkPage />} />
+              <Route path="report-card" element={<ParentReportCardPage />} />
+              <Route path="fees" element={<ParentFeesPage />} />
+              <Route path="notices" element={<ParentNoticesPage />} />
+              <Route path="events" element={<ParentEventsPage />} />
+              <Route path="chat" element={<ParentChatPage />} />
+              <Route path="leave" element={<ParentLeaveRequestPage />} />
+              <Route path="notifications" element={<ParentNotificationsPage />} />
             </Route>
           </Routes>
         </BrowserRouter>

@@ -11,6 +11,10 @@ export function useCreateExam() {
   return useMutation(examService.createExam, { onSuccess: () => qc.invalidateQueries(['exams','list']) })
 }
 
+export function useExams() {
+  return useQuery(['exams', 'list'], examService.getExams)
+}
+
 export function useAddQuestion() {
   const qc = useQueryClient()
   return useMutation(examService.addQuestion, { onSuccess: () => qc.invalidateQueries(['exams','questions']) })
@@ -32,4 +36,8 @@ export function useExamSchedule(exam_id) {
 
 export function useProgressCard(student_id, exam_id) {
   return useQuery(['progress', student_id, exam_id], () => examService.getProgressCard({ student_id, exam_id }), { enabled: !!student_id && !!exam_id })
+}
+
+export function useStudentMarks(student_id) {
+  return useQuery(['exams', 'marks', student_id], () => examService.getStudentMarks(student_id), { enabled: !!student_id })
 }
