@@ -64,6 +64,16 @@ export function ExportIcon(props) {
   )
 }
 
+export function HostelIcon(props) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M4 21V10.5L12 4l8 6.5V21" />
+      <path d="M9 21v-6h6v6" />
+      <path d="M9 13h6" />
+    </svg>
+  )
+}
+
 export function LogoutIcon(props) {
   return (
     <svg {...base} {...props}>

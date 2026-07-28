@@ -11,6 +11,7 @@ import TeacherList from './components/teacher/TeacherList'
 import TeacherForm from './components/teacher/TeacherForm'
 import TeacherProfile from './components/teacher/TeacherProfile'
 import AttendancePage from './components/attendance/AttendancePage'
+import HostelPage from './components/hostel/HostelPage'
 import ExportPage from './components/export/ExportPage'
 
 const queryClient = new QueryClient()
@@ -53,6 +54,7 @@ function App() {
               <Route path="/teacher/edit/:id" element={<TeacherFormRoute />} />
               <Route path="/teacher/:id" element={<TeacherProfileRoute />} />
               <Route path="/attendance" element={<AttendancePage />} />
+              <Route path="/hostel" element={<HostelPage />} />
               <Route path="/export" element={<ExportPage />} />
             </Route>
           </Routes>
