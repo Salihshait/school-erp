@@ -1,0 +1,11 @@
+feat(teacher): add Teacher Management Module (DB, services, hooks, UI, tests)
+
+- Add Supabase SQL schema for teachers, departments, qualifications, experience, attendance, leaves, documents, timetable, performance
+- Add `teacherService` and storage helpers
+- Add React Query hooks in `useTeachers.js`
+- Implement `TeacherList`, `TeacherForm`, `TeacherProfile`, and reusable components
+- Add validation with `react-hook-form` + `yup`
+- Add placeholders for timetable, attendance, performance, and documents upload
+- Update client dependencies if needed
+
+Notes: Requires Supabase buckets `teacher-documents` and `teacher-photos`. Run `npm install` and ensure env vars are set.

@@ -1,0 +1,9 @@
+{
+  "name": "school-erp",
+  "private": true,
+  "scripts": {
+    "build": "npm --prefix school-erp.client install && npm --prefix school-erp.client run build",
+    "dev": "npm --prefix school-erp.client run dev",
+    "start": "npm --prefix server run start"
+  }
+}

@@ -1,0 +1,13 @@
+feat(attendance): add Attendance Module scaffold
+
+- Supabase schema: `attendance_sessions`, `attendance_records`, `attendance_leaves`, `attendance_holidays` and monthly summary view
+- Services: `attendanceService` for session/record/leave/holidays and export
+- Hooks: React Query hooks in `useAttendance.js`
+- UI: `AttendancePage`, `DailyAttendance`, `BulkAttendance`, `QRAttendance`, `AttendanceCalendar`, `AttendanceReports`, `AttendanceChart`, `LeaveManagement`
+- Utils: `exportToXlsx` helper for XLSX exports
+- Tests: add vitest and testing-library dependencies and test stubs (developer to expand)
+- Dependencies: `chart.js`, `react-chartjs-2`, `xlsx`, `jspdf`, `html2canvas`
+
+Notes:
+- QR scanning, RFID integration, SMS gateway, and full calendar UI are left as placeholders to integrate chosen libraries (html5-qrcode, FullCalendar, Twilio/SMS provider).
+- Run `npm install` after pulling changes.

@@ -1,0 +1,10 @@
+feat(exam): add Examination Module scaffold
+
+- SQL: `exam_types`, `exams`, `questions`, `question_papers`, `marks`, `grade_scales`, `cgpa_config`, `progress_cards`, `hall_tickets`, `exam_schedule`, `published_results`
+- Services: `examService` for CRUD, marks entry, publishing, hall ticket generation
+- Hooks: `useExam.js` React Query hooks
+- UI: `ExamPage`, `ExamTypes`, `QuestionPapers`, `MarksEntry`, `Schedule`, `ResultPublish`, `ProgressCard`, `HallTicket`, `ExamReports`, `ExamChart`
+- Utilities: `report.js` for PDF generation of report cards and tickets
+- Notes: Grade/Cgpa calculation and ranking logic should be implemented server-side (SQL functions) for scalability; placeholders provided client-side.
+
+Run `npm install` to ensure `jspdf` and `html2canvas` are installed for PDF exports.

@@ -1,0 +1,8 @@
+feat(library): add Library Module scaffold
+
+- SQL: `book_categories`, `books`, `book_copies`, `members`, `issues`, `reservations`, `fines` and `current_issues` view
+- Services: `libraryService` with search, issue/return/renew, reservations, fines
+- Hooks: `useLibrary.js` React Query hooks
+- UI: `LibraryPage` and components `Books`, `Categories`, `IssueBook`, `ReturnBook`, `BookSearch`, `Reservation`, `History`, `Dashboard`, `Reports`
+- Notes: Barcode/RFID/QR integration placeholders provided; recommend integrating `jsbarcode`, `html5-qrcode`, or an RFID SDK when ready
+- Testing: add Vitest test stubs next

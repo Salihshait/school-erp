@@ -1,0 +1,12 @@
+feat(fees): add Fee Management module scaffold
+
+- SQL: `fee_categories`, `fees`, `discounts`, `scholarships`, `fines`, `installments`, `payments`, `receipts`, views for daily/monthly collection
+- Services: `feeService` for CRUD and collections
+- Hooks: `useFees.js` React Query hooks
+- UI: `FeePage`, `FeeCategories`, `FeeCollection`, `PaymentHistory`, `FeeReports`, `FeeChart`, `Receipt`, `PendingFees`, `Installments`, `Scholarships`
+- Utilities: XLSX export helper reused
+- Testing: add Vitest/test deps already added to `package.json`; create test stubs next
+
+Notes:
+- Online/UPI integration and receipt printing use existing utilities and placeholders; integrate payment gateway SDK when ready.
+- After pulling, run `npm install` and then `npm run dev` to test locally.

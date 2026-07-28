@@ -1,0 +1,10 @@
+feat(student): add full Student Management Module (UI, services, hooks, SQL)
+
+- Add Supabase SQL schema for students, parents, medical, transport, hostel, documents, promotions, transfers
+- Add `studentService` with CRUD and Supabase Storage helpers
+- Add React Query hooks in `useStudents.js` for list/get/create/update/delete and uploads
+- Implement pages/components: `StudentList`, `StudentForm`, `StudentProfile`, plus reusable components (`AvatarUpload`, `StudentFilters`)
+- Add `ProtectedRoute` to guard student routes
+- Update `package.json` with required dependencies for React Query, React Hook Form, Yup, PapaParse, FileSaver
+
+Notes: Requires Supabase buckets `student-photos` and `student-documents`; set VITE_SUPABASE_* env vars; run `npm install` in `school-erp.client`.
