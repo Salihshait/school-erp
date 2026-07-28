@@ -74,6 +74,16 @@ export function HostelIcon(props) {
   )
 }
 
+export function PayrollIcon(props) {
+  return (
+    <svg {...base} {...props}>
+      <rect x="3" y="5" width="18" height="14" rx="2" />
+      <circle cx="12" cy="12" r="3" />
+      <path d="M6.5 9v0M17.5 15v0" />
+    </svg>
+  )
+}
+
 export function LogoutIcon(props) {
   return (
     <svg {...base} {...props}>
