@@ -1,8 +1,8 @@
 import React from 'react'
 import { usePendingFees, usePayFee } from '../../hooks/useFees'
 import { useParentPortalContext } from './ParentPortalContext'
-import PortalCard from './PortalCard'
-import EmptyState from './EmptyState'
+import PortalCard from '../common/PortalCard'
+import EmptyState from '../common/EmptyState'
 
 export default function ParentFeesPage() {
   const { studentId } = useParentPortalContext()

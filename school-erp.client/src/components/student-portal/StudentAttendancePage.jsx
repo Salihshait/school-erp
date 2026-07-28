@@ -1,11 +1,11 @@
 import React from 'react'
 import { usePersonAttendance } from '../../hooks/useAttendance'
-import { useParentPortalContext } from './ParentPortalContext'
+import { useStudentPortalContext } from './StudentPortalContext'
 import PortalCard from '../common/PortalCard'
 import EmptyState from '../common/EmptyState'
 
-export default function ParentAttendancePage() {
-  const { studentId } = useParentPortalContext()
+export default function StudentAttendancePage() {
+  const { studentId } = useStudentPortalContext()
   const { data, isLoading } = usePersonAttendance({ person_id: studentId, person_type: 'student' })
 
   const records = data || []

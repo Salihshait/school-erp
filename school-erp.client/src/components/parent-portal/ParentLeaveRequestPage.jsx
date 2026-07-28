@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { useLeaveRequests, useCreateLeave } from '../../hooks/useAttendance'
 import { useParentPortalContext } from './ParentPortalContext'
-import PortalCard from './PortalCard'
-import EmptyState from './EmptyState'
+import PortalCard from '../common/PortalCard'
+import EmptyState from '../common/EmptyState'
 
 export default function ParentLeaveRequestPage() {
   const { studentId, parentId } = useParentPortalContext()

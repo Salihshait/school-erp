@@ -1,7 +1,7 @@
 import React from 'react'
 import { useEvents } from '../../hooks/useParentPortal'
-import PortalCard from './PortalCard'
-import EmptyState from './EmptyState'
+import PortalCard from '../common/PortalCard'
+import EmptyState from '../common/EmptyState'
 
 export default function ParentEventsPage() {
   const { data, isLoading } = useEvents()

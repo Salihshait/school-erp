@@ -1,4 +1,4 @@
-.parent-shell {
+.portal-shell {
   display: flex;
   flex-direction: column;
   min-height: 100svh;
@@ -6,14 +6,14 @@
   text-align: left;
 }
 
-.parent-portal-status {
+.portal-status {
   padding: 24px;
   max-width: 480px;
   margin: 0 auto;
   text-align: center;
 }
 
-.parent-header {
+.portal-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -26,20 +26,20 @@
   z-index: 5;
 }
 
-.parent-header-title {
+.portal-header-title {
   font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: var(--text);
 }
 
-.parent-header-student {
+.portal-header-subtitle {
   font-size: 18px;
   font-weight: 600;
   color: var(--text-h);
 }
 
-.parent-signout {
+.portal-signout {
   padding: 8px 14px;
   border-radius: 7px;
   border: 1px solid var(--border);
@@ -50,11 +50,11 @@
   flex-shrink: 0;
 }
 
-.parent-signout:hover {
+.portal-signout:hover {
   background: var(--social-bg);
 }
 
-.parent-tabs {
+.portal-tabs {
   display: flex;
   gap: 4px;
   padding: 8px 12px;
@@ -68,7 +68,7 @@
   scrollbar-width: thin;
 }
 
-.parent-tab {
+.portal-tab {
   flex-shrink: 0;
   padding: 8px 14px;
   border-radius: 20px;
@@ -79,24 +79,24 @@
   white-space: nowrap;
 }
 
-.parent-tab:hover {
+.portal-tab:hover {
   background: var(--social-bg);
   color: var(--text-h);
 }
 
-.parent-tab.active {
+.portal-tab.active {
   background: var(--accent-bg);
   color: var(--accent);
   font-weight: 600;
 }
 
-.parent-content {
+.portal-content {
   flex: 1;
   padding: 16px;
 }
 
 @media (min-width: 640px) {
-  .parent-content {
+  .portal-content {
     padding: 24px;
     max-width: 720px;
     margin: 0 auto;

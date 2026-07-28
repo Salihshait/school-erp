@@ -1,18 +1,18 @@
 import React from 'react'
 import { useHomework } from '../../hooks/useParentPortal'
-import { useParentPortalContext } from './ParentPortalContext'
+import { useStudentPortalContext } from './StudentPortalContext'
 import PortalCard from '../common/PortalCard'
 import EmptyState from '../common/EmptyState'
 
-export default function ParentHomeworkPage() {
-  const { student } = useParentPortalContext()
+export default function StudentHomeworkPage() {
+  const { student } = useStudentPortalContext()
   const { data, isLoading } = useHomework({ class_id: student?.class_id, section: student?.section })
   const items = data || []
 
   return (
     <div>
       <h2>Homework</h2>
-      <PortalCard title="Assignments">
+      <PortalCard title="Assigned Homework">
         {isLoading ? 'Loading...' : items.length === 0 ? (
           <EmptyState>No homework assigned yet.</EmptyState>
         ) : items.map(h => (

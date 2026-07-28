@@ -56,6 +56,12 @@ export const reserveBook = async ({ book_id, member_id, expires_at }) => {
   return data
 }
 
+export const getCurrentIssuesForPerson = async (person_id) => {
+  const { data, error } = await supabase.from('current_issues').select('*').eq('person_id', person_id)
+  if (error) throw error
+  return data
+}
+
 export const getBookHistory = async ({ person_id }) => {
   const { data, error } = await supabase.rpc('get_book_history', { _person_id: person_id })
   if (error) {

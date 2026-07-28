@@ -25,6 +25,18 @@ import ParentEventsPage from './components/parent-portal/ParentEventsPage'
 import ParentChatPage from './components/parent-portal/ParentChatPage'
 import ParentLeaveRequestPage from './components/parent-portal/ParentLeaveRequestPage'
 import ParentNotificationsPage from './components/parent-portal/ParentNotificationsPage'
+import StudentPortalLayout from './components/student-portal/StudentPortalLayout'
+import StudentDashboardPage from './components/student-portal/StudentDashboardPage'
+import StudentAttendancePage from './components/student-portal/StudentAttendancePage'
+import StudentHomeworkPage from './components/student-portal/StudentHomeworkPage'
+import StudentAssignmentsPage from './components/student-portal/StudentAssignmentsPage'
+import StudentExamResultsPage from './components/student-portal/StudentExamResultsPage'
+import StudentFeesPage from './components/student-portal/StudentFeesPage'
+import StudentLibraryPage from './components/student-portal/StudentLibraryPage'
+import StudentTimetablePage from './components/student-portal/StudentTimetablePage'
+import StudentNotesPage from './components/student-portal/StudentNotesPage'
+import StudentProfilePage from './components/student-portal/StudentProfilePage'
+import StudentCertificatesPage from './components/student-portal/StudentCertificatesPage'
 
 const queryClient = new QueryClient()
 
@@ -81,6 +93,19 @@ function App() {
               <Route path="chat" element={<ParentChatPage />} />
               <Route path="leave" element={<ParentLeaveRequestPage />} />
               <Route path="notifications" element={<ParentNotificationsPage />} />
+            </Route>
+            <Route path="/student-portal" element={<StudentPortalLayout />}>
+              <Route index element={<StudentDashboardPage />} />
+              <Route path="attendance" element={<StudentAttendancePage />} />
+              <Route path="homework" element={<StudentHomeworkPage />} />
+              <Route path="assignments" element={<StudentAssignmentsPage />} />
+              <Route path="results" element={<StudentExamResultsPage />} />
+              <Route path="fees" element={<StudentFeesPage />} />
+              <Route path="library" element={<StudentLibraryPage />} />
+              <Route path="timetable" element={<StudentTimetablePage />} />
+              <Route path="notes" element={<StudentNotesPage />} />
+              <Route path="certificates" element={<StudentCertificatesPage />} />
+              <Route path="profile" element={<StudentProfilePage />} />
             </Route>
           </Routes>
         </BrowserRouter>

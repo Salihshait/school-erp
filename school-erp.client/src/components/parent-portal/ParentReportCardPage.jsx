@@ -2,8 +2,8 @@ import React, { useRef, useState } from 'react'
 import { useExams, useProgressCard } from '../../hooks/useExam'
 import { useParentPortalContext } from './ParentPortalContext'
 import { exportElementToPdf } from '../../utils/report'
-import PortalCard from './PortalCard'
-import EmptyState from './EmptyState'
+import PortalCard from '../common/PortalCard'
+import EmptyState from '../common/EmptyState'
 
 export default function ParentReportCardPage() {
   const { studentId, student } = useParentPortalContext()

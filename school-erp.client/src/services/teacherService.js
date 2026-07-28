@@ -2,6 +2,7 @@ import { supabase } from '../lib/supabaseClient'
 
 const TBL = 'teachers'
 const DOC_TBL = 'teacher_documents'
+const TIMETABLE_TBL = 'teacher_timetable'
 
 export const teacherService = {
   async list({ page = 1, perPage = 50, search = '', filters = {} } = {}) {
@@ -47,6 +48,13 @@ export const teacherService = {
     if (error) throw error
     return data.publicUrl
   }
+}
+
+export const getClassTimetable = async (class_id) => {
+  const { data, error } = await supabase.from(TIMETABLE_TBL).select('*')
+    .eq('class_id', class_id).order('day_of_week', { ascending: true }).order('start_time', { ascending: true })
+  if (error) throw error
+  return data
 }
 
 export default teacherService

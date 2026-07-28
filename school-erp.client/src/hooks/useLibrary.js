@@ -40,6 +40,10 @@ export function useSearchBooks(q) {
   return useQuery(['library','search',q], () => libraryService.searchBooks(q), { enabled: !!q })
 }
 
+export function useCurrentIssues(person_id) {
+  return useQuery(['library','current-issues',person_id], () => libraryService.getCurrentIssuesForPerson(person_id), { enabled: !!person_id })
+}
+
 export function useAddFine() {
   const qc = useQueryClient()
   return useMutation(libraryService.addFine, { onSuccess: () => qc.invalidateQueries(['library','fines']) })

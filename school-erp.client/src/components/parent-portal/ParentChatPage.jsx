@@ -2,8 +2,8 @@ import React, { useState } from 'react'
 import { useTeachers } from '../../hooks/useTeachers'
 import { useMessages, useSendMessage } from '../../hooks/useParentPortal'
 import { useParentPortalContext } from './ParentPortalContext'
-import PortalCard from './PortalCard'
-import EmptyState from './EmptyState'
+import PortalCard from '../common/PortalCard'
+import EmptyState from '../common/EmptyState'
 
 export default function ParentChatPage() {
   const { studentId } = useParentPortalContext()
