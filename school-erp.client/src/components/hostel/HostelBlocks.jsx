@@ -30,7 +30,7 @@ export default function HostelBlocks() {
         {isLoading ? 'Loading...' : (data || []).map(b => (
           <div key={b.id} style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 0', borderBottom: '1px solid #eee' }}>
             <span>{b.name} — Warden: {b.warden_name || '—'} — Floors: {b.total_floors}</span>
-            <button onClick={() => remove.mutate(b.id)}>Delete</button>
+            <button className="btn-danger btn-sm" onClick={() => remove.mutate(b.id)}>Delete</button>
           </div>
         ))}
       </div>

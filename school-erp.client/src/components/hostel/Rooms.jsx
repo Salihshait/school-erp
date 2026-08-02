@@ -44,7 +44,7 @@ export default function Rooms() {
         {isLoading ? 'Loading...' : (rooms || []).map(r => (
           <div key={r.id} style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 0', borderBottom: '1px solid #eee' }}>
             <span>{blockName(r.block_id)} • Room {r.room_number} — {r.room_type} (cap {r.capacity}) — {r.status}</span>
-            <button onClick={() => remove.mutate(r.id)}>Delete</button>
+            <button className="btn-danger btn-sm" onClick={() => remove.mutate(r.id)}>Delete</button>
           </div>
         ))}
       </div>

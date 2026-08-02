@@ -41,7 +41,7 @@ export default function StudentList() {
                   <td>
                     <a href={`/student/${s.id}`}>View</a> {' | '}
                     <a href={`/student/edit/${s.id}`}>Edit</a> {' | '}
-                    <button onClick={() => deleteMut.mutate(s.id)}>Delete</button>
+                    <button className="btn-danger btn-sm" onClick={() => deleteMut.mutate(s.id)}>Delete</button>
                   </td>
                 </tr>
               ))}

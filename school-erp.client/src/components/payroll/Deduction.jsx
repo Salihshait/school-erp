@@ -35,7 +35,7 @@ export default function Deduction() {
         {isLoading ? 'Loading...' : (data || []).map(d => (
           <div key={d.id} style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 0', borderBottom: '1px solid #eee' }}>
             <span>Teacher {d.teacher_id} — {d.deduction_type}: ₹{d.amount} ({d.month})</span>
-            <button onClick={() => remove.mutate(d.id)}>Delete</button>
+            <button className="btn-danger btn-sm" onClick={() => remove.mutate(d.id)}>Delete</button>
           </div>
         ))}
       </div>

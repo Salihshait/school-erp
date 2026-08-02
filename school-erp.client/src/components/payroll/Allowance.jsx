@@ -35,7 +35,7 @@ export default function Allowance() {
         {isLoading ? 'Loading...' : (data || []).map(a => (
           <div key={a.id} style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 0', borderBottom: '1px solid #eee' }}>
             <span>Teacher {a.teacher_id} — {a.allowance_type}: ₹{a.amount} ({a.month})</span>
-            <button onClick={() => remove.mutate(a.id)}>Delete</button>
+            <button className="btn-danger btn-sm" onClick={() => remove.mutate(a.id)}>Delete</button>
           </div>
         ))}
       </div>

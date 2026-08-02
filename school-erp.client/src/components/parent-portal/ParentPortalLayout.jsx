@@ -31,7 +31,7 @@ export default function ParentPortalLayout() {
       <div className="portal-status">
         <p>No parent account is linked to <strong>{user.email}</strong>.</p>
         <p>Please contact the school administration to link your account.</p>
-        <button onClick={() => signOut()}>Sign out</button>
+        <button className="portal-signout" onClick={() => signOut()}>Sign out</button>
       </div>
     )
   }

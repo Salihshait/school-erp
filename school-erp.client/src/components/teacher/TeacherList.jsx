@@ -41,7 +41,7 @@ export default function TeacherList() {
                   <td>
                     <a href={`/teacher/${t.id}`}>View</a> {' | '}
                     <a href={`/teacher/edit/${t.id}`}>Edit</a> {' | '}
-                    <button onClick={() => del.mutate(t.id)}>Delete</button>
+                    <button className="btn-danger btn-sm" onClick={() => del.mutate(t.id)}>Delete</button>
                   </td>
                 </tr>
               ))}
