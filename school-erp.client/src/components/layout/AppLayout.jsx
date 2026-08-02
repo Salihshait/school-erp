@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { NavLink, Outlet, useLocation } from 'react-router-dom'
 import { useAuth } from '../auth/AuthProvider'
-import { DashboardIcon, StudentsIcon, TeachersIcon, AttendanceIcon, HostelIcon, PayrollIcon, ReportsIcon, ExportIcon, LogoutIcon, MenuIcon } from './icons'
+import { DashboardIcon, StudentsIcon, TeachersIcon, AttendanceIcon, HostelIcon, PayrollIcon, ReportsIcon, ExportIcon, SettingsIcon, LogoutIcon, MenuIcon } from './icons'
 import './AppLayout.css'
 
 const NAV_ITEMS = [
@@ -13,6 +13,7 @@ const NAV_ITEMS = [
   { to: '/payroll', label: 'Payroll', icon: PayrollIcon },
   { to: '/reports', label: 'Reports', icon: ReportsIcon },
   { to: '/export', label: 'Export', icon: ExportIcon },
+  { to: '/settings', label: 'Settings', icon: SettingsIcon },
 ]
 
 function pageTitle(pathname) {

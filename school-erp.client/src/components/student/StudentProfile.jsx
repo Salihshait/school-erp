@@ -1,5 +1,6 @@
 import React from 'react'
 import { useStudent } from '../../hooks/useStudents'
+import FaceEnrollment from './FaceEnrollment'
 
 export default function StudentProfile({ id }) {
   const { data: s, isLoading } = useStudent(id)
@@ -30,6 +31,8 @@ export default function StudentProfile({ id }) {
         <button onClick={() => window.print()}>Print Profile</button>
         <button style={{ marginLeft: 8 }}>Generate ID Card</button>
       </div>
+
+      <FaceEnrollment studentId={id} />
     </div>
   )
 }

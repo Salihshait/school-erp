@@ -4,6 +4,7 @@ import { useCreateSession, useBulkRecord } from '../../hooks/useAttendance'
 import { useTeacherPortalContext } from './TeacherPortalContext'
 import PortalCard from '../common/PortalCard'
 import EmptyState from '../common/EmptyState'
+import FaceAttendanceCapture from '../attendance/FaceAttendanceCapture'
 
 const STATUSES = ['present', 'absent', 'late', 'on_leave', 'excused']
 const today = () => new Date().toISOString().slice(0, 10)
@@ -14,6 +15,9 @@ export default function TeacherStudentAttendancePage() {
   const [section, setSection] = useState('')
   const [date, setDate] = useState(today())
   const [statuses, setStatuses] = useState({})
+  const [captureMethods, setCaptureMethods] = useState({})
+  const [faceConfidence, setFaceConfidence] = useState({})
+  const [mode, setMode] = useState('manual') // 'manual' | 'face'
   const [saved, setSaved] = useState(false)
 
   const { data: students, isLoading } = useStudents({ filters: { class_id: classId, section } })
@@ -21,6 +25,13 @@ export default function TeacherStudentAttendancePage() {
   const bulkRecord = useBulkRecord()
 
   const roster = classId ? (students || []) : []
+
+  function markRecognized(studentId, confidence) {
+    setStatuses(st => ({ ...st, [studentId]: 'present' }))
+    setCaptureMethods(m => ({ ...m, [studentId]: 'face' }))
+    setFaceConfidence(c => ({ ...c, [studentId]: confidence }))
+    setSaved(false)
+  }
 
   async function submit() {
     if (!roster.length) return
@@ -31,6 +42,8 @@ export default function TeacherStudentAttendancePage() {
       person_type: 'student',
       status: statuses[s.id] || 'present',
       recorded_by: teacherId,
+      capture_method: captureMethods[s.id] || 'manual',
+      face_confidence: faceConfidence[s.id] ?? null,
     }))
     await bulkRecord.mutateAsync(records)
     setSaved(true)
@@ -48,22 +61,47 @@ export default function TeacherStudentAttendancePage() {
       </PortalCard>
 
       {classId && (
-        <PortalCard title="Mark Attendance" action={<button onClick={submit} disabled={!roster.length}>Save Attendance</button>}>
-          {isLoading ? 'Loading...' : roster.length === 0 ? (
-            <EmptyState>No students found for this class/section.</EmptyState>
-          ) : roster.map(s => (
-            <div key={s.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '6px 0', borderBottom: '1px solid var(--border)' }}>
-              <span>{s.first_name} {s.last_name}</span>
-              <select
-                value={statuses[s.id] || 'present'}
-                onChange={e => setStatuses(st => ({ ...st, [s.id]: e.target.value }))}
-              >
-                {STATUSES.map(st => <option key={st} value={st}>{st}</option>)}
-              </select>
+        <>
+          <PortalCard title="Capture Method">
+            <div style={{ display: 'flex', gap: 8 }}>
+              <button className={mode === 'manual' ? '' : 'btn-secondary'} onClick={() => setMode('manual')}>Manual</button>
+              <button className={mode === 'face' ? '' : 'btn-secondary'} onClick={() => setMode('face')}>Face recognition</button>
             </div>
-          ))}
-          {saved && <div style={{ marginTop: 8, fontSize: 13.5 }}>Attendance saved for {date}.</div>}
-        </PortalCard>
+          </PortalCard>
+
+          {mode === 'face' && roster.length > 0 && (
+            <PortalCard title="Scan Faces">
+              <FaceAttendanceCapture roster={roster} onRecognized={markRecognized} />
+            </PortalCard>
+          )}
+
+          <PortalCard title="Mark Attendance" action={<button onClick={submit} disabled={!roster.length}>Save Attendance</button>}>
+            {isLoading ? 'Loading...' : roster.length === 0 ? (
+              <EmptyState>No students found for this class/section.</EmptyState>
+            ) : roster.map(s => (
+              <div key={s.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '6px 0', borderBottom: '1px solid var(--border)' }}>
+                <span>
+                  {s.first_name} {s.last_name}
+                  {captureMethods[s.id] === 'face' && (
+                    <span style={{ marginLeft: 8, fontSize: 11.5, color: 'var(--success)' }}>
+                      face match · {faceConfidence[s.id]}%
+                    </span>
+                  )}
+                </span>
+                <select
+                  value={statuses[s.id] || 'present'}
+                  onChange={e => {
+                    setStatuses(st => ({ ...st, [s.id]: e.target.value }))
+                    setCaptureMethods(m => ({ ...m, [s.id]: 'manual' }))
+                  }}
+                >
+                  {STATUSES.map(st => <option key={st} value={st}>{st}</option>)}
+                </select>
+              </div>
+            ))}
+            {saved && <div style={{ marginTop: 8, fontSize: 13.5 }}>Attendance saved for {date}.</div>}
+          </PortalCard>
+        </>
       )}
     </div>
   )

@@ -19,6 +19,7 @@ import HostelPage from './components/hostel/HostelPage'
 import PayrollPage from './components/payroll/PayrollPage'
 import ReportsPage from './components/reports/ReportsPage'
 import ExportPage from './components/export/ExportPage'
+import SettingsPage from './components/settings/SettingsPage'
 import ParentPortalLayout from './components/parent-portal/ParentPortalLayout'
 import ParentAttendancePage from './components/parent-portal/ParentAttendancePage'
 import ParentMarksPage from './components/parent-portal/ParentMarksPage'
@@ -101,6 +102,7 @@ function App() {
               <Route path="/payroll" element={<PayrollPage />} />
               <Route path="/reports" element={<ReportsPage />} />
               <Route path="/export" element={<ExportPage />} />
+              <Route path="/settings" element={<SettingsPage />} />
             </Route>
             <Route path="/parent" element={<ParentPortalLayout />}>
               <Route index element={<ParentAttendancePage />} />
