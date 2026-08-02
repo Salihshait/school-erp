@@ -4,6 +4,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { useCreateTeacher, useUpdateTeacher, useTeacher } from '../../hooks/useTeachers'
 import AvatarUpload from '../student/components/AvatarUpload'
+import '../common/FormCard.css'
 
 const schema = yup.object({
   employee_number: yup.string().required('Employee number required'),
@@ -30,55 +31,73 @@ export default function TeacherForm({ id }) {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} style={{ padding: 16 }}>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
-        <div>
-          <label>Employee Number</label>
-          <input {...register('employee_number')} />
-          {errors.employee_number && <div style={{ color: 'crimson' }}>{errors.employee_number.message}</div>}
-        </div>
-        <div>
-          <label>Designation</label>
-          <input {...register('designation')} />
+    <div style={{ padding: 20 }}>
+      <h2>{id ? 'Edit Teacher' : 'Add Teacher'}</h2>
+      <form onSubmit={handleSubmit(onSubmit)} className="form-card">
+        <div className="form-section">
+          <h3 className="form-section-title">Photo</h3>
+          <AvatarUpload studentId={id} />
         </div>
 
-        <div>
-          <label>First Name</label>
-          <input {...register('first_name')} />
-        </div>
-        <div>
-          <label>Last Name</label>
-          <input {...register('last_name')} />
+        <div className="form-section">
+          <h3 className="form-section-title">Employment</h3>
+          <div className="form-grid">
+            <div className="field">
+              <label>Employee Number</label>
+              <input {...register('employee_number')} />
+              {errors.employee_number && <div className="field-error">{errors.employee_number.message}</div>}
+            </div>
+            <div className="field">
+              <label>Designation</label>
+              <input {...register('designation')} />
+            </div>
+            <div className="field">
+              <label>Department</label>
+              <input {...register('department_id')} />
+            </div>
+            <div className="field">
+              <label>Joining Date</label>
+              <input type="date" {...register('joining_date')} />
+            </div>
+          </div>
         </div>
 
-        <div>
-          <label>Department</label>
-          <input {...register('department_id')} />
-        </div>
-        <div>
-          <label>Mobile</label>
-          <input {...register('mobile')} />
+        <div className="form-section">
+          <h3 className="form-section-title">Personal Details</h3>
+          <div className="form-grid">
+            <div className="field">
+              <label>First Name</label>
+              <input {...register('first_name')} />
+              {errors.first_name && <div className="field-error">{errors.first_name.message}</div>}
+            </div>
+            <div className="field">
+              <label>Last Name</label>
+              <input {...register('last_name')} />
+              {errors.last_name && <div className="field-error">{errors.last_name.message}</div>}
+            </div>
+          </div>
         </div>
 
-        <div>
-          <label>Email</label>
-          <input {...register('email')} />
+        <div className="form-section">
+          <h3 className="form-section-title">Contact</h3>
+          <div className="form-grid">
+            <div className="field">
+              <label>Email</label>
+              <input type="email" {...register('email')} />
+              {errors.email && <div className="field-error">{errors.email.message}</div>}
+            </div>
+            <div className="field">
+              <label>Mobile</label>
+              <input {...register('mobile')} />
+            </div>
+          </div>
         </div>
 
-        <div>
-          <label>Joining Date</label>
-          <input type="date" {...register('joining_date')} />
+        <div className="form-actions">
+          <button type="submit">Save</button>
+          <button type="button" className="btn-secondary" onClick={() => window.history.back()}>Cancel</button>
         </div>
-      </div>
-
-      <div style={{ marginTop: 12 }}>
-        <label>Photo</label>
-        <AvatarUpload studentId={id} />
-      </div>
-
-      <div style={{ marginTop: 12 }}>
-        <button type="submit">Save</button>
-      </div>
-    </form>
+      </form>
+    </div>
   )
 }
